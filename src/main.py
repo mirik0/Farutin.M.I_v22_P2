@@ -5,7 +5,7 @@ import tarfile
 from pathlib import Path
 from urllib.parse import urlparse
 
-from .graph import dependency_graph
+from .graph import reverse_graph
 from .repository import load_apk, load_test
 
 
@@ -40,9 +40,10 @@ def main(argv=None):
     args = read_args(argv)
     try:
         repo = load_test(args.repo) if args.test_repo else load_apk(args.repo)
-        graph = dependency_graph(repo, args.package, args.version)
-        for name, depends in graph.items():
-            print(f"{name}: {', '.join(depends)}")
+        graph = reverse_graph(repo, args.package, args.version)
+        for name in graph:
+            if name != args.package:
+                print(name)
     except (OSError, ValueError, KeyError, tarfile.TarError) as error:
         print(f"Ошибка: {error}", file=sys.stderr)
         return 1
