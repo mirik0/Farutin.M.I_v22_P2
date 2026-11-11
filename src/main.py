@@ -1,7 +1,11 @@
 import argparse
 import re
+import sys
+import tarfile
 from pathlib import Path
 from urllib.parse import urlparse
+
+from .repository import load_apk
 
 
 def read_args(argv=None):
@@ -31,13 +35,15 @@ def read_args(argv=None):
     return args
 
 
-def conf_dump(args):
-    for key, value in vars(args).items():
-        print(f"{key}={value}")
-
-
 def main(argv=None):
-    conf_dump(read_args(argv))
+    args = read_args(argv)
+    try:
+        repo = load_apk(args.repo)
+        package = repo.get(args.package, args.version)
+        print("\n".join(package["depends"]))
+    except (OSError, ValueError, KeyError, tarfile.TarError) as error:
+        print(f"Ошибка: {error}", file=sys.stderr)
+        return 1
     return 0
 
 
