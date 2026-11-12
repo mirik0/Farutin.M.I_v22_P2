@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from src.graph import dependency_graph, reverse_graph
+from src.graph import dependency_graph
 from src.repository import load_test
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
@@ -28,16 +28,3 @@ class GraphTests(unittest.TestCase):
                          {"A": ["B"], "B": ["C"], "C": ["A"]})
         self.assertEqual(dependency_graph(repo, "D", "1.0"), {"D": ["D"]})
         self.assertEqual(dependency_graph(repo, "E", "1.0"), {"E": []})
-
-
-    def test_reverse(self):
-        cases = [
-            ("chain.json", "C", {"C", "B", "A"}),
-            ("diamond.json", "D", {"D", "B", "A", "C"}),
-            ("cycle.json", "A", {"A", "C", "B"}),
-        ]
-        for file, name, expected in cases:
-            with self.subTest(file=file):
-                repo = load_test(FIXTURES / file)
-                self.assertEqual(set(reverse_graph(repo, name, "1.0")),
-                                 expected)

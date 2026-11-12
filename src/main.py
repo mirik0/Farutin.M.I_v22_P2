@@ -5,7 +5,8 @@ import tarfile
 from pathlib import Path
 from urllib.parse import urlparse
 
-from .graph import reverse_graph
+from .graph import dependency_graph
+from .plantuml import to_plantuml
 from .repository import load_apk, load_test
 
 
@@ -40,10 +41,8 @@ def main(argv=None):
     args = read_args(argv)
     try:
         repo = load_test(args.repo) if args.test_repo else load_apk(args.repo)
-        graph = reverse_graph(repo, args.package, args.version)
-        for name in graph:
-            if name != args.package:
-                print(name)
+        graph = dependency_graph(repo, args.package, args.version)
+        print(to_plantuml(graph))
     except (OSError, ValueError, KeyError, tarfile.TarError) as error:
         print(f"Ошибка: {error}", file=sys.stderr)
         return 1

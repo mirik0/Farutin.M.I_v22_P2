@@ -1,0 +1,7 @@
+digraph "apkindex" {
+  rankdir=LR;
+  node [shape=box];
+  "xz-5.8.4-r0" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-x86_64.so.1",];
+  "xz-libs-5.8.4-r0" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-x86_64.so.1",];
+  "xz-5.8.4-r0" -> "xz-libs-5.8.4-r0"[arrowhead=inv,label="so:liblzma.so.5",];
+}

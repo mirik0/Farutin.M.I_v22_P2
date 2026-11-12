@@ -1,0 +1,21 @@
+P:busybox
+V:1.37.0-r20
+D:so:libc.musl-x86_64.so.1
+
+P:musl
+V:1.2.5-r13
+p:so:libc.musl-x86_64.so.1=1
+
+P:xz
+V:5.8.4-r0
+D:so:libc.musl-x86_64.so.1 so:liblzma.so.5
+
+P:xz-libs
+V:5.8.4-r0
+D:so:libc.musl-x86_64.so.1
+p:so:liblzma.so.5=5.8.4
+
+P:zlib
+V:1.3.2-r1
+D:so:libc.musl-x86_64.so.1
+p:so:libz.so.1=1.3.2

@@ -30,6 +30,6 @@ class MainTests(unittest.TestCase):
     def test_result(self):
         result = self.launch("--test-repo",
                              "--repo", "fixtures/chain.json",
-                             "--package", "C")
+                             "--package", "A")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue(result.stdout.startswith("B\nA\n"))
+        self.assertTrue(result.stdout.startswith("@startuml\n"))

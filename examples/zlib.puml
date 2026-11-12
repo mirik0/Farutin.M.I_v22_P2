@@ -1,0 +1,6 @@
+@startuml
+left to right direction
+component "zlib" as N0
+component "musl" as N1
+N0 --> N1
+@enduml
